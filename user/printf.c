@@ -2,6 +2,8 @@
 #include "stat.h"
 #include "user.h"
 
+#include "vga_color.h"
+
 static void putc(int fd, char c)
 {
     write(fd, &c, 0x01);
@@ -62,16 +64,19 @@ void printf(int fd, const char *fmt, ...)
         }
         else if (state == '%')
         {
+            //--------------------------------------------------
             if (c == 'd')
             {
                 printint(fd, *ap, 0x0A, 0x01);
                 ap++;
             }
+            //--------------------------------------------------
             else if (c == 'x' || c == 'p')
             {
                 printint(fd, *ap, 0x10, 0x00);
                 ap++;
             }
+            //--------------------------------------------------
             else if (c == 's')
             {
                 s = (char *)*ap;
@@ -86,21 +91,33 @@ void printf(int fd, const char *fmt, ...)
                     s++;
                 }
             }
+            //--------------------------------------------------
+            else if (c == 'R') consolecolor(VGA_RED);
+            else if (c == 'G') consolecolor(VGA_GREEN);
+            else if (c == 'B') consolecolor(VGA_BLUE);
+            else if (c == 'Y') consolecolor(VGA_YELLOW);
+            else if (c == 'W') consolecolor(VGA_WHITE);
+            else if (c == 'C') consolecolor(VGA_CYAN);
+            else if (c == 'M') consolecolor(VGA_MAGENTA);
+            else if (c == '-') consolecolor(VGA_LIGHT_GREY);
+            //--------------------------------------------------
             else if (c == 'c')
             {
                 putc(fd, *ap);
                 ap++;
             }
+            //--------------------------------------------------
             else if (c == '%')
             {
                 putc(fd, c);
             }
+            //--------------------------------------------------
             else
             {
                 putc(fd, '%');
                 putc(fd, c);
             }
-
+            //--------------------------------------------------
             state = 0x00;
         }
     }

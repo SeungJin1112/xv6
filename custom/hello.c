@@ -2,8 +2,13 @@
 #include "stat.h"
 #include "user.h"
 
+#include "vga_color.h"
+
 int main(int argc, char **argv)
 {
-    printf(1, "Hello, world!\n");
+    consolecolor(VGA_ORANGE);
+    printf(0x01, "Hello, %R world %G !\n");
+    consolecolor(VGA_WHITE);
+
     exit();
 }
