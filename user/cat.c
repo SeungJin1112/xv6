@@ -12,14 +12,14 @@ void cat(int fd)
     {
         if (write(0x01, buffer, bytes) != bytes)
         {
-            printf(0x01, "[LVL: ERROR][PROC: CAT][FUNC: %s][LINE: %d] write error\n", __func__, __LINE__);
+            printf(0x02, "[LVL: ERROR][PROC: CAT][FUNC: %s][LINE: %d] write error\n", __func__, __LINE__);
             exit();
         }
     }
 
     if (bytes < 0x00)
     {
-        printf(0x01, "[LVL: ERROR][PROC: CAT][FUNC: %s][LINE: %d] read error\n", __func__, __LINE__);
+        printf(0x02, "[LVL: ERROR][PROC: CAT][FUNC: %s][LINE: %d] read error\n", __func__, __LINE__);
         exit();
     }
 }
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     {
         if ((fd = open(argv[i], 0x00)) < 0x00)
         {
-            printf(0x01, "[LVL: ERROR][PROC: CAT][FUNC: %s][LINE: %d] cannot open %s\n", __func__, __LINE__, argv[i]);
+            printf(0x02, "[LVL: ERROR][PROC: CAT][FUNC: %s][LINE: %d] cannot open %s\n", __func__, __LINE__, argv[i]);
             exit();
         }
 

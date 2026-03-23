@@ -105,7 +105,7 @@ int atoi(const char *s)
 
 void *memmove(void *vdst, const void *vsrc, int n)
 {
-    char *dst       = vdst;
+    char       *dst = vdst;
     const char *src = vsrc;
 
     while (n-- > 0x00)
