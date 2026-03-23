@@ -103,7 +103,12 @@ extern int sys_unlink(void);
 extern int sys_wait(void);
 extern int sys_write(void);
 extern int sys_uptime(void);
+
 extern int sys_consolecolor(void);
+extern int sys_draw_string(void);
+extern int sys_draw_box(void);
+extern int sys_draw_window(void);
+extern int sys_clear_window(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -128,6 +133,10 @@ static int (*syscalls[])(void) = {
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
 [SYS_consolecolor]   sys_consolecolor,
+[SYS_draw_string]    sys_draw_string,
+[SYS_draw_box]       sys_draw_box,
+[SYS_draw_window]    sys_draw_window,
+[SYS_clear_window]   sys_clear_window,
 };
 
 void

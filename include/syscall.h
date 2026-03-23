@@ -22,4 +22,8 @@
 #define SYS_close  21
 //--------------------------------------------------
 #define SYS_consolecolor 22
+#define SYS_draw_string  23
+#define SYS_draw_box     24
+#define SYS_draw_window  25
+#define SYS_clear_window 26
 //--------------------------------------------------

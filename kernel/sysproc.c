@@ -104,3 +104,83 @@ int sys_consolecolor(void)
     consolecolor(color);
     return 0x00;
 }
+
+int sys_draw_string(void)
+{
+    int x = 0x00;
+    int y = 0x00;
+
+    char *str = nullptr;
+
+    if (argint(0x00, &x) < 0x00)
+        return -0x01;
+
+    if (argint(0x01, &y) < 0x00)
+        return -0x01;
+
+    if (argstr(0x02, &str) < 0x00)
+        return -0x01;
+
+    draw_string(x, y, str);
+
+    return 0x00;
+}
+
+int sys_draw_box(void)
+{
+    int x = 0x00;
+    int y = 0x00;
+    int w = 0x00;
+    int h = 0x00;
+
+    if (argint(0x00, &x) < 0x00)
+        return -0x01;
+
+    if (argint(0x01, &y) < 0x00)
+        return -0x01;
+
+    if (argint(0x02, &w) < 0x00)
+        return -0x01;
+
+    if (argint(0x03, &h) < 0x00)
+        return -0x01;
+
+    draw_box(x, y, w, h);
+
+    return 0x00;
+}
+
+int sys_draw_window(void)
+{
+    int x = 0x00;
+    int y = 0x00;
+    int w = 0x00;
+    int h = 0x00;
+
+    char *title = nullptr;
+
+    if (argint(0x00, &x) < 0x00)
+        return -0x01;
+
+    if (argint(0x01, &y) < 0x00)
+        return -0x01;
+
+    if (argint(0x02, &w) < 0x00)
+        return -0x01;
+
+    if (argint(0x03, &h) < 0x00)
+        return -0x01;
+
+    if (argstr(0x04, &title) < 0x00)
+        return -0x01;
+
+    draw_window(x, y, w, h, title);
+
+    return 0x00;
+}
+
+int sys_clear_window(void)
+{
+    clear_window();
+    return 0x00;
+}

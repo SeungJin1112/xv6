@@ -39,5 +39,9 @@ void*   malloc(uint);
 void    free(void*);
 int     atoi(const char*);
 //--------------------------------------------------
-int     consolecolor(ushort);
+void    consolecolor(ushort);
+void    draw_string(int, int, const char*);
+void    draw_box(int, int, int, int);
+void    draw_window(int, int, int, int, const char*);
+void    clear_window();
 //--------------------------------------------------

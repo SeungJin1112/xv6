@@ -23,6 +23,12 @@ void            consoleintr(int(*)(void));
 void            panic(char*) __attribute__((noreturn));
 
 void            consolecolor(ushort);
+
+void            draw_string(int, int, const char*);
+void            draw_box(int, int, int, int);
+void            draw_window(int, int, int, int, const char*);
+
+void            clear_window();
 //--------------------------------------------------
 // exec.c
 int             exec(char*, char**);

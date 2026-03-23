@@ -375,3 +375,76 @@ void consoleinit(void)
 
     ioapicenable(IRQ_KBD, 0x00);
 }
+
+#define WIDTH  80
+#define HEIGHT 25
+
+void gotoxy(int x, int y)
+{
+    int pos = y * WIDTH + x;
+
+    outb(CRTPORT,  0x0E);
+    outb(CRTPORT + 0x01, pos >> 0x08);
+    outb(CRTPORT,  0x0F);
+    outb(CRTPORT + 0x01, pos);
+}
+
+void draw_char(int x, int y, char c)
+{
+    gotoxy(x, y);
+    consputc(c);
+}
+
+void draw_string(int x, int y, const char* s)
+{
+    gotoxy(x, y);
+
+    while (*s)
+    {
+        consputc(*s++);
+    }
+}
+
+void draw_box(int x, int y, int w, int h)
+{
+    // top / bottom
+    for (int i = 0x00; i < w; i++)
+    {
+        draw_char(x + i, y, '-');
+        draw_char(x + i, y + h - 0x01, '-');
+    }
+
+    // left / right
+    for (int i = 0x00; i < h; i++)
+    {
+        draw_char(x, y + i, '|');
+        draw_char(x + w - 0x01, y + i, '|');
+    }
+
+    // corners
+    draw_char(x, y, '+');
+    draw_char(x + w - 0x01, y, '+');
+    draw_char(x, y + h - 0x01, '+');
+    draw_char(x + w - 0x01, y + h - 0x01, '+');
+}
+
+void draw_window(int x, int y, int w, int h, const char* title)
+{
+    draw_box(x, y, w, h);
+
+    if (title)
+    {
+        draw_string(x + 0x02, y, title);
+    }
+}
+
+void clear_window()
+{
+    for (int y = 0x00; y < HEIGHT; y++)
+    {
+        for (int x = 0x00; x < WIDTH; x++)
+        {
+            draw_char(x, y, ' ');
+        }
+    }
+}

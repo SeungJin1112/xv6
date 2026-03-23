@@ -210,6 +210,7 @@ UPROGS=\
 	_wc\
 	_zombie\
 	_hello\
+	_tui\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
