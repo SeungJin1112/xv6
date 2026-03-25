@@ -21,9 +21,20 @@
 #define SYS_mkdir  20
 #define SYS_close  21
 //--------------------------------------------------
-#define SYS_consolecolor 22
-#define SYS_draw_string  23
-#define SYS_draw_box     24
-#define SYS_draw_window  25
-#define SYS_clear_window 26
+#define SYS_consolecolor  22
+#define SYS_consoleputsxy 23
+#define SYS_consolebox    24
+#define SYS_consolewindow 25
+#define SYS_consoleclear  26
+//--------------------------------------------------
+#define SYS_systicks      27
+#define SYS_procticks     28
+#define SYS_procs         29
+#define SYS_clone         30
+#define SYS_join          31
+#define SYS_detach        32
+//--------------------------------------------------
+#define SYS_ktotalbytes   33
+#define SYS_kfreebytes    34
+#define SYS_kusedbytes    35
 //--------------------------------------------------

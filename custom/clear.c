@@ -6,9 +6,7 @@
 
 int main(int argc, char **argv)
 {
-    consolecolor(VGA_ORANGE);
-    printf(0x01, "Hello, %R world %G !\n");
-    consolecolor(VGA_WHITE);
-
+    consoleclear();
+    consolecolor(VGA_LIGHT_GREY);
     exit();
 }

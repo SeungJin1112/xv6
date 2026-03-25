@@ -209,8 +209,10 @@ UPROGS=\
 	_usertests\
 	_wc\
 	_zombie\
-	_hello\
-	_tui\
+	_clear\
+	_theme\
+	_top\
+	_vi\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)

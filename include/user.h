@@ -24,6 +24,10 @@ int     getpid(void);
 char*   sbrk(int);
 int     sleep(int);
 int     uptime(void);
+
+int     clone(void (*)(void*, void*), void *, void *, void *);
+int     join(int);
+int     detach(int);
 //--------------------------------------------------
 // ulib.c
 int     stat(const char*, struct stat*);
@@ -40,8 +44,23 @@ void    free(void*);
 int     atoi(const char*);
 //--------------------------------------------------
 void    consolecolor(ushort);
-void    draw_string(int, int, const char*);
-void    draw_box(int, int, int, int);
-void    draw_window(int, int, int, int, const char*);
-void    clear_window();
+void    consoleputsxy(int, int, const char*);
+void    consolebox(int, int, int, int);
+void    consolewindow(int, int, int, int, const char*);
+void    consoleclear();
+//--------------------------------------------------
+struct uproc
+{
+    int pid;
+    int ppid;
+    char name[16];
+    int state;
+    int cpu_usage;
+    int cpu_time;
+    int mem_usage;
+};
+
+int     systicks(void);
+int     procticks(int);
+int     procs(struct uproc*, int);
 //--------------------------------------------------

@@ -159,11 +159,6 @@ static ushort *s_crt      = (ushort *)P2V(0xb8000); // CGA memory
 
 static ushort s_vga_color = (ushort)VGA_LIGHT_GREY;
 
-void consolecolor(ushort color)
-{
-    s_vga_color = color;
-}
-
 static void cgaputc(int c)
 {
     int pos = 0x00;
@@ -376,10 +371,15 @@ void consoleinit(void)
     ioapicenable(IRQ_KBD, 0x00);
 }
 
+void consolecolor(ushort color)
+{
+    s_vga_color = color;
+}
+
 #define WIDTH  80
 #define HEIGHT 25
 
-void gotoxy(int x, int y)
+void consolegotoxy(int x, int y)
 {
     int pos = y * WIDTH + x;
 
@@ -389,15 +389,15 @@ void gotoxy(int x, int y)
     outb(CRTPORT + 0x01, pos);
 }
 
-void draw_char(int x, int y, char c)
+void consoleputcxy(int x, int y, char c)
 {
-    gotoxy(x, y);
+    consolegotoxy(x, y);
     consputc(c);
 }
 
-void draw_string(int x, int y, const char* s)
+void consoleputsxy(int x, int y, const char* s)
 {
-    gotoxy(x, y);
+    consolegotoxy(x, y);
 
     while (*s)
     {
@@ -405,46 +405,47 @@ void draw_string(int x, int y, const char* s)
     }
 }
 
-void draw_box(int x, int y, int w, int h)
+void consolebox(int x, int y, int w, int h)
 {
+    if (w > WIDTH)  w = WIDTH;
+    if (h > HEIGHT) h = HEIGHT;
+
     // top / bottom
     for (int i = 0x00; i < w; i++)
     {
-        draw_char(x + i, y, '-');
-        draw_char(x + i, y + h - 0x01, '-');
+        consoleputcxy(x + i, y, '-');
+        consoleputcxy(x + i, y + h - 0x01, '-');
     }
 
     // left / right
     for (int i = 0x00; i < h; i++)
     {
-        draw_char(x, y + i, '|');
-        draw_char(x + w - 0x01, y + i, '|');
+        consoleputcxy(x, y + i, '|');
+        consoleputcxy(x + w - 0x01, y + i, '|');
     }
 
     // corners
-    draw_char(x, y, '+');
-    draw_char(x + w - 0x01, y, '+');
-    draw_char(x, y + h - 0x01, '+');
-    draw_char(x + w - 0x01, y + h - 0x01, '+');
+    consoleputcxy(x, y, '+');
+    consoleputcxy(x + w - 0x01, y, '+');
+    consoleputcxy(x, y + h - 0x01, '+');
+    consoleputcxy(x + w - 0x01, y + h - 0x01, '+');
 }
 
-void draw_window(int x, int y, int w, int h, const char* title)
+void consolewindow(int x, int y, int w, int h, const char* title)
 {
-    draw_box(x, y, w, h);
+    consolebox(x, y, w, h);
 
     if (title)
-    {
-        draw_string(x + 0x02, y, title);
-    }
+        consoleputsxy(x + 0x02, y, title);
 }
 
-void clear_window()
+void consoleclear()
 {
-    for (int y = 0x00; y < HEIGHT; y++)
+    for (int y = 0x00; y < (HEIGHT - 0x01); y++)
     {
         for (int x = 0x00; x < WIDTH; x++)
         {
-            draw_char(x, y, ' ');
+            consoleputcxy(x, y, ' ');
         }
     }
 }

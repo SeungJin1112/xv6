@@ -25,6 +25,20 @@ int strcmp(const char *p, const char *q)
     return (uchar)*p - (uchar)*q;
 }
 
+int strncmp(const char *p, const char *q, int n)
+{
+    while (n-- > 0x00 && *p && *q)
+    {
+        if (*p != *q)
+            return *p - *q;
+
+        p++;
+        q++;
+    }
+
+    return 0x00;
+}
+
 uint strlen(const char *s)
 {
     int n = 0x00;
@@ -103,6 +117,43 @@ int atoi(const char *s)
     return n;
 }
 
+void itoa(int src, char *dst)
+{
+    int idx = 0x00;
+    int neg = 0x00;
+
+    if (src == 0x00)
+    {
+        dst[idx++] = '0';
+        dst[idx]   = 0x00;
+        return;
+    }
+
+    if (src < 0x00)
+    {
+        neg = 0x01;
+        src  = -src;
+    }
+
+    while (src > 0x00)
+    {
+        dst[idx++] = (src % 0x0A) + '0';
+        src /= 0x0A;
+    }
+
+    if (neg)
+        dst[idx++] = '-';
+
+    dst[idx] = 0x00;
+
+    for (int j = 0x00; j < idx / 0x02; j++)
+    {
+        char tmp = dst[j];
+        dst[j] = dst[idx - j - 0x01];
+        dst[idx - j - 0x01] = tmp;
+    }
+}
+
 void *memmove(void *vdst, const void *vsrc, int n)
 {
     char       *dst = vdst;
@@ -114,4 +165,22 @@ void *memmove(void *vdst, const void *vsrc, int n)
     }
 
     return vdst;
+}
+
+char *strcat(char *dst, const char *src)
+{
+    char *p = dst;
+
+    while (*p)
+    {
+        p++;
+    }
+
+    while (*src)
+    {
+        *p++ = *src++;
+    }
+
+    *p = 0x00;
+    return dst;
 }

@@ -23,12 +23,10 @@ void            consoleintr(int(*)(void));
 void            panic(char*) __attribute__((noreturn));
 
 void            consolecolor(ushort);
-
-void            draw_string(int, int, const char*);
-void            draw_box(int, int, int, int);
-void            draw_window(int, int, int, int, const char*);
-
-void            clear_window();
+void            consoleputsxy(int, int, const char*);
+void            consolebox(int, int, int, int);
+void            consolewindow(int, int, int, int, const char*);
+void            consoleclear();
 //--------------------------------------------------
 // exec.c
 int             exec(char*, char**);
@@ -76,6 +74,11 @@ char*           kalloc(void);
 void            kfree(char*);
 void            kinit1(void*, void*);
 void            kinit2(void*, void*);
+
+int             kfreecount(void);
+int             ktotalbytes(void);
+int             kfreebytes(void);
+int             kusedbytes(void);
 //--------------------------------------------------
 // kbd.c
 void            kbdintr(void);
@@ -128,6 +131,15 @@ void            userinit(void);
 int             wait(void);
 void            wakeup(void*);
 void            yield(void);
+
+struct uproc;
+
+int             systicks(void);
+int             procticks(int);
+int             procs(struct uproc*, int);
+int             clone(void (*)(void*, void*), void *, void *, void *);
+int             join(int);
+int             detach(int);
 //--------------------------------------------------
 // swtch.S
 void            swtch(struct context**, struct context*);
@@ -169,9 +181,9 @@ void            timerinit(void);
 //--------------------------------------------------
 // trap.c
 void            idtinit(void);
-extern uint     ticks;
+extern uint     g_ticks;
 void            tvinit(void);
-extern struct spinlock tickslock;
+extern struct spinlock g_tickslock;
 //--------------------------------------------------
 // uart.c
 void            uartinit(void);
